@@ -21,16 +21,15 @@ public class ProductServiceImpl implements ProductService {
 		
 		ProductDao dao = new ProductDaoImpl();
 		
-		//·µ»ØPageBean
+		//PageBeanå®Ÿä¾‹åŒ–
 		try {
-			//1¡¢·â×°total ´ú±íÊı¾İ×ÜÌõÊı
+			//totalå–å¾—
 			PageBean<Product> pageBean = new PageBean<>();
 			int total = dao.getCount();
 			pageBean.setTotal(total);
-			//2¡¢µ±Ç°Ò³ÏÔÊ¾µÄÊı¾İ
+			//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç®—å‡º
 			int index = (currentPage-1)*currentCount;
 			List<Map<String,Object>> mapList = dao.findProductListByPage(index,currentCount);
-			//×ª»»·â×° List<Map<String,Object>> ----> List<Product>
 			
 			List<Product> rows = new ArrayList<>();
 			

@@ -4,9 +4,9 @@ import java.util.List;
 
 public class PageBean<T> {
 
-	//easyuiµÄ·ÖÒ³page
-	private int total;//×ÜÌõÊı
-	private List<T> rows;//µ±Ç°Ò³ÏÔÊ¾µÄÊı¾İ
+	//å…¨ä»¶æ•°ãƒ»ç·é‡‘é¡
+	private int total;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private List<T> rows;//ï¿½ï¿½Ç°Ò³ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public int getTotal() {
 		return total;
 	}

@@ -15,8 +15,7 @@ import com.itheima.service.impl.ProductServiceImpl;
 public class ProductServlet extends BaseServlet {
 
 	public void findAllProductList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//分页需要的数据 total rows
+
 		int currentPage = Integer.parseInt(request.getParameter("page"));
 		int currentCount = Integer.parseInt(request.getParameter("rows"));
 		

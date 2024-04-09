@@ -17,10 +17,9 @@ import com.itheima.utils.CommonsUtils;
 public class CategoryServlet extends BaseServlet {
 
 	public void editCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//»ñµÃcid
+
 		String cid = request.getParameter("cid");
-		//»ñµÃcname
+
 		String cname = request.getParameter("cname");
 		Category category = new Category();
 		category.setCid(cid);
@@ -36,7 +35,6 @@ public class CategoryServlet extends BaseServlet {
 	
 	
 	public void findCategoryByCid(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//½ÓÊÜcid
 		String cid = request.getParameter("cid");
 		CategoryService service = new CategoryServiceImpl();
 		Category category = service.findCategoryByCid(cid);
@@ -61,8 +59,7 @@ public class CategoryServlet extends BaseServlet {
 	
 	
 	public void addCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//»ñµÃÀà±ðµÄÃû³Æ
+
 		String cname = request.getParameter("cname");
 		Category category = new Category();
 		category.setCid(CommonsUtils.getUUID());
@@ -74,11 +71,10 @@ public class CategoryServlet extends BaseServlet {
 		response.getWriter().write(isAddSuccess+"");
 		
 	}
-	
-	//»ñµÃÈ«²¿category
+
 	public void findAllCategoryList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CategoryService service = new CategoryServiceImpl();
-		List<Category> categoryList = service.findCategoryList();//»ñµÃÈ«²¿Êý¾Ý
+		List<Category> categoryList = service.findCategoryList();//ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Gson gson = new Gson();
 		String json = gson.toJson(categoryList);
 		
@@ -88,20 +84,10 @@ public class CategoryServlet extends BaseServlet {
 	public void findCategoryList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		CategoryService service = new CategoryServiceImpl();
-		//List<Category> categoryList = service.findCategoryList();//»ñµÃÈ«²¿Êý¾Ý
-		
-		//·ÖÒ³£º{"total":8,rows:[{"cid":"100","cname":"ÊÖ»úÊýÂë"},{},{}]}
-		/*
-		 * ÉÏÊöjsonÍ¨¹ýjava¶ÔÏóÃèÊö
-		 * 	PageBean
-		 * 		private int total;
-		 * 		private List<Category> rows;
-		 */
-		
-		//²ÎÊý1£ºµ±Ç°Ò³
+
 		String currentPageStr = request.getParameter("page");
 		int currentPage = Integer.parseInt(currentPageStr);
-		//²ÎÊý2£ºÃ¿Ò³ÏÔÊ¾µÄÌõÊý
+
 		String currentCountStr = request.getParameter("rows");
 		int currentCount = Integer.parseInt(currentCountStr);
 		

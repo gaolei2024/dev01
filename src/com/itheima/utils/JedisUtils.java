@@ -17,7 +17,7 @@ public class JedisUtils {
 	
 	private static JedisPoolConfig config = new JedisPoolConfig();
 	static{
-		//读取配置文件
+
 		InputStream in = JedisUtils.class.getClassLoader().getResourceAsStream("jedis.properties");
 		Properties pro = new Properties();
 		try {
@@ -34,18 +34,15 @@ public class JedisUtils {
 	}
 	
 	private static JedisPool pool = new JedisPool(config,host,port );
-	
-	//提供一个返回池子的方法
+
 	public static JedisPool getPool(){
 		return pool;
 	}
-	
-	//获得一个jedis资源方法
+
 	public static Jedis getJedis(){
 		return pool.getResource();
 	}
-	
-	//关闭的方法
+
 	public static void close(Jedis jedis){
 		if(jedis!=null){
 			jedis.close();

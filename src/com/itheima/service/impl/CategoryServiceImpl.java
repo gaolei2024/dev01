@@ -27,15 +27,15 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public PageBean getPageBean(int currentPage, int currentCount) {
-		//·â×°·ÖÒ³PageBean
+		//PageBeanå®Ÿä¾‹åŒ–
 		CategoryDao dao = new CategoryDaoImpl();
 		
 		try {
 			PageBean<Category> pageBean = new PageBean<>();
-			//private int total;//×ÜÌõÊı
+			//private int total;//ToTalå–å¾—
 			int total = dao.getTotal();
 			pageBean.setTotal(total);
-			//private List<T> rows;//µ±Ç°Ò³ÏÔÊ¾µÄÊı¾İ
+			//private List<T> rows;//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹è¨ˆç®—
 			int index = (currentPage-1)*currentCount;
 			//sql:select * from category limit ?,?
 			List<Category> rows = dao.findCategoryListByPage(index,currentCount);

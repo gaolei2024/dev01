@@ -32,30 +32,28 @@ public class AddProductServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//ÊÕ¼¯Ñ­»·ÖĞ±íµ¥Êı¾İµÄ
+		//Mapåˆ—è¡¨ä½œæˆ
 		Map<String,Object> map = new HashMap<>();
 		
 		try {
-			//ÎÄ¼şÉÏ´«µÄÄ£°å²Ù×÷
-			//1¡¢´´½¨¹¤³§
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			String tempPath = this.getServletContext().getRealPath("temp");
 			factory.setRepository(new File(tempPath));
 			factory.setSizeThreshold(1024*1024);
-			//2¡¢´´½¨ºËĞÄ¶ÔÏó
+			//ãƒ•ã‚¡ã‚¤ãƒ«ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰åˆæœŸåŒ–
 			ServletFileUpload upload = new ServletFileUpload(factory);
-			//3¡¢½âÎörequest »ñµÃ¶à¸öÎÄ¼şÏî¶ÔÏóFileItem
+			//ãƒªã‚¯ã‚¨ã‚¹ãƒˆä½œæˆ
 			List<FileItem> parseRequest = upload.parseRequest(request);
-			//4¡¢±éÀúÅĞ¶ÏÊÇÆÕÍ¨±íµ¥Ïî»¹ÊÇÎÄ¼şÉÏ´«Ïî
+			//ãƒªã‚¯ã‚¨ã‚¹ãƒˆå†…å®¹ç¹°ã‚Šè¿”ã—å‡¦ç†
 			for(FileItem item:parseRequest){
 				boolean formField = item.isFormField();
 				if(formField){
-					//ÆÕÍ¨±íµ¥ »ñµÃnameºÍvalue  ·â×°µ½ProductÊµÌå
+					//ãƒ•ã‚¡ã‚¤ãƒ«åè¨­å®š
 					String name = item.getFieldName();
 					String value = item.getString("UTF-8");
 					map.put(name, value);
 				}else{
-					//ÎÄ¼şÉÏ´«Ïî
+					//ãƒ•ã‚¡ã‚¤ãƒ«åè¨­å®š
 					String filename = item.getName();
 					InputStream in = item.getInputStream();
 					String filePath = this.getServletContext().getRealPath("upload");
@@ -65,26 +63,22 @@ public class AddProductServlet extends HttpServlet {
 					out.close();
 					item.delete();
 					
-					//ÏòmapÖĞÌí¼ÓpimageµÄÖµ
+					//pimageè¨­å®š
 					map.put("pimage", "upload/"+filename);//upload/1.jpg
 					
 				}
 			}
-			
-			
-			//½«mapÖĞµÄÊı¾İ Ó³Éä·â×°µ½Product¶ÔÏóÄÚ²¿
+
 			Product product = new Product();
 			BeanUtils.populate(product, map);
-			
-			//·â×°4¸öÊı¾İ
-			//·â×°pid
+
 			product.setPid(CommonsUtils.getUUID());
-			//·â×°pdate
+
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			product.setPdate(format.format(new Date()));
-			//·â×°pflag
+
 			product.setPflag(0);
-			//·â×°category
+
 			Category category = new Category();
 			category.setCid(map.get("cid").toString());
 			product.setCategory(category);
