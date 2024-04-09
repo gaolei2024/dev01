@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- 显示类别类表数据 -->
+	<table id="categoryList"></table>
+	<!-- 工具条 -->
+	<div id="tb" style="padding:2px 5px;">
+		<a href="javascript:void(0);" onclick="addCategory()" class="easyui-linkbutton" iconCls="icon-add" plain="true"></a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"></a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true"></a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true"></a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"></a>
+	</div>
+	<!-- 添加类别的对话框 -->
+	<div id="addCategoryDialog"></div>
+	<!-- 编辑类别的对话框 -->
+	<div id="editCategoryDialog"></div>
+
+	<script type="text/javascript">
+	
+		//添加类别的对话框
+		function addCategory(){
+			//弹出一个对话框 添加类别信息的表单
+			$("#addCategoryDialog").dialog({
+				width:300,
+				height:200,
+				title:'添加类别信息',
+				modal:true,
+				href:'category_add.html'
+			});
+		}
+		
+		//删除category
+		function delCategory(cid){
+			//参数r是页面用户点击 点击确认返回true  取消返回false
+			$.messager.confirm('确认对话框', '您想要删除该项吗？', function(r){
+				if (r){
+				    //确认要删除
+				    $.post(
+				    	'/HeimaBack/category',
+				    	{"cid":cid,"method":"delCategoryByCid"},
+				    	function(data){
+				    		if(data=="true"){
+		    					//2、提示框 提示添加成功
+		    					$.messager.show({
+									title:'我的消息',
+									msg:'删除商品类别成功',
+									timeout:3000,
+									showType:'slide'
+								});
+
+		    					//3、刷新datagrid
+		    					$("#categoryList").datagrid('reload');
+				    		}
+				    	},
+				    	"text"
+				    );
+				}
+			});
+		}
+		
+		
+		//编辑类别
+		function editCategory(cid){
+			
+			//将局部cid赋值给一个全局变量
+			globalCid = cid;
+			
+			$("#editCategoryDialog").dialog({
+				width:300,
+				height:200,
+				title:'编辑类别信息',
+				modal:true,
+				href:'category_edit.html'
+			});
+		}
+	
+	
+		$(function(){
+			$("#categoryList").datagrid({
+				columns:[[
+				    //ajax访问服务器端 返回数据json格式
+				    //显示全部：[{"cid":"100","cname":"手机数码"},{},{}]
+				    //分页：{"total":8,rows:[{"cid":"100","cname":"手机数码"},{},{}]}
+				    //field对应是 json中key  如果json的key与field的值对应一致  就将json的值放到该类下
+					{field:'cid',title:'类别编号',width:120},
+					{field:'cname',title:'类别名称',width:120},
+					{field:'option',title:'操作',width:120,
+						//formatter:function(value,rows,index)
+						//参数value 代表该fileld对应的值
+						//参数rows 代表该行中所有的json值{"cid":"100","cname":"手机数码"}
+						//参数index 索引 行的索引
+						formatter:function(value,rows,index){
+							var content = '<a href="javascript:void(0);" onclick="editCategory(\''+rows.cid+'\')">编辑</a>';
+							content+='&nbsp;&nbsp;<a href="javascript:void(0);" onclick="delCategory(\''+rows.cid+'\')">删除</a>';
+							return content;
+						}	
+					}
+				]],
+				url:'/HeimaBack/category?method=findCategoryList',
+				pagination:true,
+				pageNumber:1,//初始化页面
+				pageSize:5,
+				pageList:[5,10,15,20],
+				border:0,
+				fit:true,
+				toolbar:'#tb'
+
+				
+				//easyui的分页 前端需要两个参数 total：总条数  rows：集合json格式当前页显示数据
+				
+			});
+		});
+	</script>
+</body>
+</html>

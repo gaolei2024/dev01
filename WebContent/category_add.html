@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div style="padding:20px;text-align: center;">
+		<form id="addCategoryForm" action="/HeimaBack/category" method="post">
+		
+			<input type="hidden" name="method" value="addCategory">
+		
+	    	<table cellpadding="5">
+	    		<tr>
+	    			<td>Name:</td>
+	    			<td><input class="easyui-textbox" type="text" name="cname"></input></td>
+	    		</tr>
+	    	</table>
+	    </form>
+	    <div style="text-align:center;padding:5px">
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitCategoryForm()">Submit</a>
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
+	    </div>
+    </div>
+    
+    <script type="text/javascript">
+    	function submitCategoryForm(){
+    		//提交表单---ajax方式
+    		$('#addCategoryForm').form('submit',{
+    			success:function(data){
+    				if(data=='true'){
+    					//1、关闭dialog ---- 在category_list.html页面中  运行时页面合并到一起 直接操作
+    					$("#addCategoryDialog").dialog('close');
+    					//2、提示框 提示添加成功
+    					$.messager.show({
+							title:'我的消息',
+							msg:'添加商品类别成功，在列表查询',
+							timeout:3000,
+							showType:'slide'
+						});
+
+    					//3、刷新datagrid
+    					$("#categoryList").datagrid('reload');
+    					
+    				}else{
+    					//添加失败
+    				}
+    			}
+    		});
+    	}
+    </script>
+    
+</body>
+</html>

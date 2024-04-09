@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<table id="productList"></table>
+	<!-- 工具条 -->
+	<div id="proToolBar" style="padding:2px 5px;">
+		<a href="javascript:void(0);" onclick="addProduct()" class="easyui-linkbutton" iconCls="icon-add" plain="true"></a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true"></a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true"></a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-cut" plain="true"></a>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true"></a>
+	</div>
+	
+	<!-- 添加商品的dialog -->
+	<div id="addProductDialog"></div>
+	
+	
+	<script type="text/javascript">
+	
+		//添加商品方法
+		function addProduct(){
+			$("#addProductDialog").dialog({
+				width:600,
+				height:350,
+				title:'添加商品',
+				href:'product_add.html'
+			});
+		}
+	
+	
+		$(function(){
+			$("#productList").datagrid({
+				columns:[[
+					{field:'pimage',title:'商品图片',width:120,align:'center',
+						formatter:function(value,rows,index){
+							return '<img src="'+value+'" width="45px"/>';
+						}	
+					},
+					{field:'pname',title:'商品名称',width:160},
+					{field:'shop_price',title:'商品售价',width:100},
+					{field:'pdate',title:'上架日期',width:120},
+					{field:'is_hot',title:'是否热门',width:100,
+						formatter:function(value,rows,index){
+							return value==1?'是':'否';
+						}	
+					},
+					{field:'category',title:'所属类别',width:160,
+						formatter:function(value,rows,index){
+							if(value){//判断value是否为空
+								return rows.category.cname;
+							}
+						}	
+					}
+				]],
+				//{"totla":"50","rows":[{"pid":"xxx","pname":"xxx","category":{"cid":"xx","cname":"xxx"}},{},{}]}
+				url:'/HeimaBack/product?method=findAllProductList',
+				pagination:true,
+				pageNumber:1,
+				pageSize:10,
+				pageList:[10,20,30],
+				fit:true,
+				toolbar:'#proToolBar'
+			});
+		});
+	</script>
+</body>
+</html>

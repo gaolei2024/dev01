@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div style="padding:25px">
+		<form id="addProductForm" method="post" enctype="multipart/form-data">
+	    	<table cellpadding="5">
+	    		<tr>
+	    			<td>商品名称:</td>
+	    			<td><input class="easyui-textbox" type="text" name="pname"></input></td>
+	    			<td>商品图片:</td>
+	    			<td><input class="easyui-filebox" type="text" name="pimage" data-options="buttonIcon:'icon-add',buttonText:''"></input></td>
+	    		</tr>
+	    		
+	    		<tr>
+	    			<td>市场价格:</td>
+	    			<td><input class="easyui-textbox" type="text" name="marker_price"></input></td>
+	    			<td>商城价格:</td>
+	    			<td><input class="easyui-textbox" type="text" name="shop_price"></input></td>
+	    		</tr>
+	    		
+	    		<tr>
+	    			<td>是否热门:</td>
+	    			<td>
+	    				<select class="easyui-combobox" name="is_hot" data-options="panelHeight:'auto',width:147">
+	    					<option value="1">是</option>
+	    					<option value="0">否</option>
+	    				</select>
+	    			</td>
+	    			<td>所属类别:</td>
+	    			<td>
+	    				<!-- 通过easyui异步加载数据 进行显示 -->
+	    				<input id="cid" name="cid">  
+	    			</td>
+	    		</tr>
+	    		
+	    		<tr>
+	    			<td>description:</td>
+	    			<td><input class="easyui-textbox" type="text" name="pdesc" data-options="multiline:true,height:70"></input></td>
+	    			<td></td>
+	    			<td></td>
+	    		</tr>
+	    		
+	    	</table>
+	    </form>
+	    <div style="text-align:center;padding:5px">
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitProductForm()">Submit</a>
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">Clear</a>
+	    </div>
+    </div>
+    
+    <script type="text/javascript">
+    
+    	//提交表单
+    	function submitProductForm(){
+    		$("#addProductForm").form('submit',{
+    			url:'/HeimaBack/addProduct',
+    			success:function(data){
+    				if(data=='true'){
+    					//1、关闭dialog ---- 在category_list.html页面中  运行时页面合并到一起 直接操作
+    					$("#addProductDialog").dialog('close');
+    					//2、提示框 提示添加成功
+    					$.messager.show({
+							title:'我的消息',
+							msg:'添加商品信息成功，在列表查询',
+							timeout:3000,
+							showType:'slide'
+						});
+
+    					//3、刷新datagrid
+    					$("#productList").datagrid('reload');
+    					
+    				}else{
+    					//添加失败
+    				}
+    			}
+    		});
+    	}
+    
+    	$(function(){
+    		//页面加载完毕 异步去服务端获得category的数据
+    		$('#cid').combobox({    
+    			//[{"cid":"100","cname":"xxx"},{},{},{}]
+    		    url:'/HeimaBack/category?method=findAllCategoryList',    
+    		    valueField:'cid',//从json串中对应id
+    		    textField:'cname'   
+    		    //<option value="100">xxx</option>
+    		}); 
+    	});
+    
+    </script>
+    
+</body>
+</html>

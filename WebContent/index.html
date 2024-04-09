@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="css/easyui.css">
+<link rel="stylesheet" type="text/css" href="css/icon.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="local/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+	function addTab(title,url){
+		//添加选项卡
+		
+		//判断当前这个选项卡是否存在
+		var isExists = $('#tt').tabs('exists',title);
+		if(isExists){
+			//直接选中该选项卡
+			$('#tt').tabs('select',title);
+		}else{
+			$('#tt').tabs('add',{    
+			    title:title,
+			    href:url,//在当前选项卡中直接引入html页面
+			    closable:true
+			});
+		}
+		
+		
+	}
+</script>
+</head>
+<body>
+	<!-- 后台页面布局 -->
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'north'" style="height:100px"></div>
+		<div data-options="region:'south',split:true" style="height:50px;"></div>
+		<div data-options="region:'west',split:true" title="系统菜单树" style="width:230px;">
+			<!-- 手风琴 菜单树 -->
+			<div class="easyui-accordion"  data-options="fit:true,border:0">
+				<div title="TreeMenu" data-options="iconCls:'icon-search'" style="padding:10px;">
+					<ul class="easyui-tree">
+						<li>
+							<span>商城后台管理</span>
+							<ul>
+								<li>
+									<span>商品类别管理</span>
+									<ul>
+										<li>
+											<a href="javascript:void(0);" onclick="addTab('类别信息列表','category_list.html')">类别信息列表</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<span>商品信息管理</span>
+									<ul>
+										<li>
+											<a href="javascript:void(0);" onclick="addTab('商品信息列表','product_list.html')">商品信息列表</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div title="About" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+				</div>
+				<div title="Help" data-options="iconCls:'icon-help'" style="padding:10px;">
+				</div>
+			</div>
+		</div>
+		<div data-options="region:'center'">
+			<!-- 选项卡 -->
+			<div id="tt" class="easyui-tabs" data-options="fit:true,border:0">
+				<div title="欢迎页面" style="padding:10px">
+					欢迎页面
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
