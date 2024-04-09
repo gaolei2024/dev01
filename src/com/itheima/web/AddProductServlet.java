@@ -77,7 +77,7 @@ public class AddProductServlet extends HttpServlet {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			product.setPdate(format.format(new Date()));
 
-			product.setPflag(0);
+			product.setPflag(1);
 
 			Category category = new Category();
 			category.setCid(map.get("cid").toString());
