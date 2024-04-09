@@ -9,6 +9,7 @@ public interface CategoryDao {
 
 	List<Category> findCategoryList() throws SQLException;
 
+	//develop20240409版
 	int getTotal() throws SQLException;
 
 	List<Category> findCategoryListByPage(int index, int currentCount) throws SQLException;
